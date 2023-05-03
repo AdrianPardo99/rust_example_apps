@@ -21,22 +21,15 @@ impl Server {
         'outer: loop {
             match listener.accept() {
                 Ok((mut stream, _)) => {
-                    /*
-                     * An array can be declared by basic C or C++ way
-                     * let a = [1, 2, 3, 4];
-                     * let b = ['a', 'b'];
-                     * In Rust you can declare an array with a efficient memory allocation
-                     * Way 1
-                     * let b: [i32;4]; --- It means we allocate integer of 32 bits and we use 4 integers in array
-                     * Way 2
-                     * let c: [i32;4] = [0,1,2,3];
-                     * Way 3
-                     * let c = [0;1024]; -- It stores 1024 bytes because 0 sometimes means a u8 value that is equal to 1 byte
-                     **/
                     let mut buffer = [0; 1024];
-                    stream.read(&mut buffer);
+                    match stream.read(&mut buffer) {
+                        Ok(_) => {
+                            println!("Received a request: {}", String::from_utf8_lossy(&buffer));
+                        }
+                        Err(e) => println!("Failed to read from connection: {}", e),
+                    }
                 }
-                Err(e) => println!("Failed to establish a connecton: {}", e),
+                Err(e) => println!("Failed to establish a connection: {}", e),
             }
 
             let result = listener.accept();
