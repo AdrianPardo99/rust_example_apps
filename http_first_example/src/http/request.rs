@@ -12,6 +12,17 @@ pub struct Request<'buf> {
     query_params: Option<QueryParam<'buf>>,
     method: Method,
 }
+impl<'buf> Request<'buf> {
+    pub fn path(&self) -> &str {
+        &self.path
+    }
+    pub fn method(&self) -> &Method {
+        &self.method
+    }
+    pub fn query_params(&self) -> Option<&QueryParam> {
+        self.query_params.as_ref()
+    }
+}
 /*
  * When we define `'a` that means to `struct Request` depends from another variable or value as lifetime
  **/
