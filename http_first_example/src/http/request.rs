@@ -45,8 +45,7 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 }
 
 fn get_next_word(request: &str) -> Option<(&str, &str)> {
-    let mut request_chars = request.chars();
-    for (index, character) in request_chars.enumerate() {
+    for (index, character) in request.chars().enumerate() {
         if character == ' ' || character == '\r' {
             return Some((&request[..index], &request[(index + 1)..]));
         }
