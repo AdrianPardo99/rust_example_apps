@@ -28,7 +28,9 @@ impl Server {
     }
     pub fn run(self, mut handler: impl Handler) {
         println!("Listening on {}", self.addr);
+
         let listener = TcpListener::bind(&self.addr).unwrap();
+
         loop {
             match listener.accept() {
                 Ok((mut stream, _)) => {
@@ -50,12 +52,6 @@ impl Server {
                 }
                 Err(e) => println!("Failed to establish a connection: {}", e),
             }
-
-            let result = listener.accept();
-            if result.is_err() {
-                continue;
-            }
-            let (_stream, _addr) = result.unwrap();
         }
     }
 }
